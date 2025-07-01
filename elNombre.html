@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Devine le Nombre (1 à 20)</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        border-color: darkgreen;
+        color: rgb(249, 1, 175);
+        font-size: 30px;
+        text-align: center;
+        margin-top: 90px;
+        background-image: url(WoW.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      input[type="number"] {
+        width: 130px;
+        height: 50px;
+        font-size: 15px;
+      }
+
+      .result {
+        margin-top: 10px;
+        font-weight: bold;
+      }
+
+      button {
+        margin: 5px;
+        width: 130px;
+        height: 50px;
+        font-size: 20px;
+        box-shadow: rgba(34, 2, 58, 0.811) 0px 10px 15px,
+          rgba(36, 1, 52, 0.578) 0px -12px 10px,
+          rgba(34, 2, 58, 0.811) 0px 10px 15px,
+          rgba(53, 1, 64, 0.788) 0px -3px 5px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Devine le Nombre entre 1 et 20</h1>
+
+    <button onclick="startGame()">💀</button><br /><br />
+
+    <input type="number" id="guess" min="1" max="20" disabled />
+    <button id="checkBtn" onclick="checkGuess()" disabled>Deviner</button>
+
+    <p class="result" id="result">Clique sur "💀" pour commencer.</p>
+    <p>
+      Tentatives : <span id="attempts">0</span> /
+      <span id="maxAttempts">5</span>
+    </p>
+
+    <script>
+      let targetNumber;
+      let attempts;
+      const maxAttempts = 5;
+
+      function startGame() {
+        targetNumber = Math.floor(Math.random() * 20) + 1;
+        attempts = 0;
+        document.getElementById("attempts").textContent = attempts;
+        document.getElementById("maxAttempts").textContent = maxAttempts;
+        document.getElementById("result").textContent =
+          "Bon Courage pour trouver !";
+        document.getElementById("guess").value = "";
+        document.getElementById("guess").disabled = false;
+        document.getElementById("checkBtn").disabled = false;
+      }
+
+      function checkGuess() {
+        const userGuess = parseInt(document.getElementById("guess").value);
+        const result = document.getElementById("result");
+
+        if (isNaN(userGuess) || userGuess < 1 || userGuess > 20) {
+          result.textContent = "Entre un nombre valide entre 1 et 20.";
+          return;
+        }
+
+        attempts++;
+        document.getElementById("attempts").textContent = attempts;
+
+        if (userGuess === targetNumber) {
+          result.textContent = `🎉 Bravo ! Le nombre de coup de pelle était ${targetNumber}.`;
+          endGame();
+        } else if (attempts >= maxAttempts) {
+          result.textContent = `Trop de tentatives. Le numéro de ta tombe est le ${targetNumber}.`;
+          endGame();
+        } else {
+          result.textContent =
+            userGuess < targetNumber
+              ? "Grandit un peu Pugsley !"
+              : "Si seulement j'avais une guillotine !";
+        }
+      }
+
+      function endGame() {
+        document.getElementById("guess").disabled = true;
+        document.getElementById("checkBtn").disabled = true;
+      }
+    </script>
+  </body>
+</html>
